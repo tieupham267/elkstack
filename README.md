@@ -111,6 +111,7 @@ Configure
 
 `vi /etc/logstash/conf.d/02-beat.conf`
 
+```
 input {
  beats {
    port => 5044
@@ -146,7 +147,7 @@ output {
     codec => rubydebug
   }
 }
-`
+```
 Check configure test to ensure logstash work beforce apply to production
 
 `/usr/share/logstash/bin/logstash --path.settings=/etc/logstash/ --config.test_and_exit -f /etc/logstash/conf.d/02-beat.conf`
@@ -180,7 +181,8 @@ Uncomment
 
 Change
 
-`- type: log
+```
+- type: log
 
   # Change to true to enable this input configuration.
   enabled: true
@@ -189,10 +191,13 @@ Change
   paths:
     - /var/log/*
     #- c:\programdata\elasticsearch\logs\*
-`
+```
+
 Verify config
 
-`filebeat test config`
+```
+filebeat test config
+```
 
 Run filebeat
 
