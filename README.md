@@ -1,7 +1,7 @@
-# elkstack
+# ELK Stack
 Using ELK Stack
 
-## Requirements
+## I. Requirements
 - CentOS 7
 - Epel repo
 - Java 1.8.0 Runtime (JRE)
@@ -11,11 +11,11 @@ Using ELK Stack
 - LogStash 7.1.1
 - FileBeat 7.1.1
 
-## Model
+## II. Model
 - IP Server: 192.168.11.6
 - Client
 
-## Requirement
+## III. Requirement
 ### CentOS 7 Update
 `yum -y update`
 
@@ -107,9 +107,10 @@ Install
 
 `yum -y localinstall logstash-7.1.0.rpm`
 
-Configure
+Configure, more detail see on "snippet\logtash\conf.d"
 
-`vi /etc/logstash/conf.d/02-beat.conf`
+`vi /etc/logstash/conf.d/02-syslog.conf`
+
 
 ```
 input {
@@ -124,7 +125,6 @@ input {
    #ssl_key => "/etc/pki/tls/private/logstash-forwarder.key"
    }
 }
-
 filter {
   if [type] == "syslog" {
     grok {
@@ -136,18 +136,19 @@ filter {
     }
   }
 }
-
 output {
   elasticsearch {
     hosts => localhost
-    index => "%{[@metadata][syslog]}-%{+YYYY.MM.dd}"
+    index => "syslog-%{+YYYY.MM.dd}"
   }
 
   stdout {
     codec => rubydebug
   }
 }
+
 ```
+
 Check configure test to ensure logstash work beforce apply to production
 
 `/usr/share/logstash/bin/logstash --path.settings=/etc/logstash/ --config.test_and_exit -f /etc/logstash/conf.d/02-beat.conf`
@@ -155,7 +156,9 @@ Check configure test to ensure logstash work beforce apply to production
 Ref: https://kifarunix.com/install-elasticsearch-7-x-on-centos-7-fedora-29/
 
 ## Configure
-### LogStash 
+### LogStash
+TODO
+
 Ref: 
 
 ### FileBeat
